@@ -19,3 +19,25 @@ a {
   margin: 0 auto;
   padding: 4rem 2rem;
 }
+.pokedex {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+@media (min-width: 400px) {
+  .pokedex {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (min-width: 600px) {
+  .pokedex {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+.pokemon {
+  border: 2px solid black;
+  padding: 1rem;
+  border-radius: 1rem;
+}
