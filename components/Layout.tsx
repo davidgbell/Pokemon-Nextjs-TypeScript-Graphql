@@ -6,14 +6,15 @@ type LayoutProps = {
   children: ReactNode;
 };
 
-export const Layout = ({ title = 'Default title' }: LayoutProps) => {
+export const Layout = ({ title = 'Default title', children }: LayoutProps) => {
   return (
-    <div>
+    <div className='layout-wrapper'>
       <Head>
         <title>{title}</title>
         <meta name='description' content='Daves Pokemon app' />
         <link rel='icon' href='/favicon.ico' />
       </Head>
+      {children}
     </div>
   );
 };

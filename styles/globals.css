@@ -14,3 +14,8 @@ a {
 * {
   box-sizing: border-box;
 }
+.layout-wrapper {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+}
