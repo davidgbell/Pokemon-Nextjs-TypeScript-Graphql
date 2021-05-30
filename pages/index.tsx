@@ -27,6 +27,7 @@ export const getStaticProps: GetStaticProps = async () => {
           number
           name
           image
+          types
         }
       }
     `,
