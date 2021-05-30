@@ -4,7 +4,11 @@ import client from '../apollo-client';
 import { Layout } from '../components/Layout';
 import { Pokedex } from '../components/Pokedex';
 
-export default function Home({ pokemons }) {
+type Props = {
+  pokemons: [];
+};
+
+export default function Home({ pokemons }: Props) {
   console.log(pokemons);
   return (
     <Layout title='Pokemons'>
