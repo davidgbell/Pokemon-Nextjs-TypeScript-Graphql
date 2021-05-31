@@ -1,11 +1,46 @@
 import gql from 'graphql-tag';
-import { GetServerSideProps, GetStaticPaths, GetStaticProps } from 'next';
+import { GetStaticPaths, GetStaticProps } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import client from '../../apollo-client';
 import { Layout } from '../../components/Layout';
 
-const PokemonPage = ({ pokemon }) => {
+type PokemonProps = {
+  name: string;
+  classification: string;
+  height: {
+    maximum: string;
+  };
+  weight: {
+    maximum: string;
+  };
+  image: string;
+  maxHP: number;
+  types: string[];
+  attacks: {
+    fast: [
+      {
+        name: string;
+        damage: number;
+      }
+    ];
+  };
+  evolutions: [
+    {
+      name: string;
+    }
+  ];
+  evolutionRequirements: {
+    amount: number;
+    name: string;
+  };
+};
+
+type Props = {
+  pokemon: PokemonProps;
+};
+
+const PokemonPage = ({ pokemon }: Props) => {
   return (
     <Layout>
       <Link href='/'>Back home</Link>
@@ -65,7 +100,11 @@ export const getStaticPaths: GetStaticPaths = async () => {
     `,
   });
 
-  const paths = await data.pokemons.map(poke => ({
+  type PathsProps = {
+    name: string;
+  };
+
+  const paths = await data.pokemons.map((poke: PathsProps) => ({
     params: {
       id: poke.name,
     },
@@ -118,43 +157,6 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     },
   };
 };
-
-// export const getServerSideProps: GetServerSideProps = async ({ query }) => {
-//     console.log(query);
-
-//     const { data } = await client.query({
-//       query: gql`
-//         query POKEMON {
-//           pokemon(name: "${query.id}") {
-//               classification
-//               evolutionRequirements {
-//               amount
-//               name
-//               }
-//               height {
-//                   maximum
-//                }
-//           weight {
-//               maximum
-//               }
-//       attacks {
-//         fast {
-//           name
-//           type
-//           damage
-//         }
-//       }
-//       evolutions {
-//         id
-//         name
-//       }
-//       types
-//       maxHP
-//       image
-//           }
-//         }
-//       `,
-//     });
 
 // export const getServerSideProps: GetServerSideProps = async ({ query }) => {
 //   console.log(query);
