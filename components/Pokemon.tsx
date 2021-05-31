@@ -22,12 +22,14 @@ export const Pokemon = ({ pokemon }: Props) => {
           <div className='pokemon'>
             <h3>{pokemon.name}</h3>
             <p>{pokemon.number}</p>
-            <Image
-              src={pokemon.image}
-              alt={pokemon.name}
-              width={200}
-              height={200}
-            />
+            <div className='pokemon-image'>
+              <Image
+                src={pokemon.image}
+                alt={pokemon.name}
+                width={200}
+                height={200}
+              />
+            </div>
             <ul>
               {pokemon.types.map(type => (
                 <li key={type}>{type}</li>

@@ -8,6 +8,7 @@ import { Layout } from '../../components/Layout';
 
 type PokemonProps = {
   name: string;
+  number: string;
   classification: string;
   height: {
     maximum: string;
@@ -48,6 +49,7 @@ const PokemonPage = ({ pokemon }: Props) => {
       <Link href='/'>Back home</Link>
       <h1>Pokemon Info</h1>
       <h2>{pokemon.name}</h2>
+      <p>#{pokemon.number}</p>
       <p>{pokemon.classification}</p>
       <p>HT {pokemon.height.maximum}</p>
       <p>WT {pokemon.weight.maximum}</p>
@@ -72,27 +74,31 @@ const PokemonPage = ({ pokemon }: Props) => {
           ))}
         </ul>
       </div>
-      <div>
-        <h4>Evolutions</h4>
-        <ul>
-          {pokemon.evolutions.map(evolution => (
-            <li key={evolution.name}>
-              <h5>{evolution.name}</h5>
-              <Image
-                src={evolution.image}
-                width={100}
-                height={100}
-                alt={evolution.name}
-              />
-            </li>
-          ))}
-        </ul>
-      </div>
-      <div>
-        <h4>Evolution requirements</h4>
-        <p>amount: {pokemon.evolutionRequirements.amount}</p>
-        <p>name: {pokemon.evolutionRequirements.name}</p>
-      </div>
+      {pokemon.evolutions && (
+        <div>
+          <h4>Evolutions</h4>
+          <ul>
+            {pokemon.evolutions.map(evolution => (
+              <li key={evolution.name}>
+                <h5>{evolution.name}</h5>
+                <Image
+                  src={evolution.image}
+                  width={100}
+                  height={100}
+                  alt={evolution.name}
+                />
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+      {pokemon.evolutionRequirements && (
+        <div>
+          <h4>Evolution requirements</h4>
+          <p>amount: {pokemon.evolutionRequirements.amount}</p>
+          <p>name: {pokemon.evolutionRequirements.name}</p>
+        </div>
+      )}
     </Layout>
   );
 };
@@ -131,6 +137,8 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     query: gql`
               query POKEMON {
                 pokemon(name: "${params?.id}") {
+                    name
+                    number
                     classification
                     evolutionRequirements {
                     amount
