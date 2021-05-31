@@ -30,7 +30,7 @@ export const Pokemon = ({ pokemon }: Props) => {
             />
             <ul>
               {pokemon.types.map(type => (
-                <li>{type}</li>
+                <li key={type}>{type}</li>
               ))}
             </ul>
           </div>
