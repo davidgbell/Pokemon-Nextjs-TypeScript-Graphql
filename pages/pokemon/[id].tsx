@@ -2,6 +2,7 @@ import gql from 'graphql-tag';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
+
 import client from '../../apollo-client';
 import { Layout } from '../../components/Layout';
 
@@ -28,6 +29,7 @@ type PokemonProps = {
   evolutions: [
     {
       name: string;
+      image: string;
     }
   ];
   evolutionRequirements: {
@@ -42,7 +44,7 @@ type Props = {
 
 const PokemonPage = ({ pokemon }: Props) => {
   return (
-    <Layout>
+    <Layout title={pokemon.name}>
       <Link href='/'>Back home</Link>
       <h1>Pokemon Info</h1>
       <h2>{pokemon.name}</h2>
@@ -74,7 +76,15 @@ const PokemonPage = ({ pokemon }: Props) => {
         <h4>Evolutions</h4>
         <ul>
           {pokemon.evolutions.map(evolution => (
-            <li key={evolution.name}>{evolution.name}</li>
+            <li key={evolution.name}>
+              <h5>{evolution.name}</h5>
+              <Image
+                src={evolution.image}
+                width={100}
+                height={100}
+                alt={evolution.name}
+              />
+            </li>
           ))}
         </ul>
       </div>
@@ -140,8 +150,8 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
               }
             }
             evolutions {
-              id
               name
+              image
             }
             types
             maxHP
