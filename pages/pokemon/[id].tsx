@@ -1,5 +1,5 @@
 import gql from 'graphql-tag';
-import { GetServerSideProps, GetStaticProps, GetStaticPaths } from 'next';
+import { GetServerSideProps, GetStaticPaths, GetStaticProps } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import client from '../../apollo-client';
@@ -20,7 +20,7 @@ const PokemonPage = ({ pokemon }) => {
         <h4>Types</h4>
         <ul>
           {pokemon.types.map(type => (
-            <li>{type}</li>
+            <li key={type}>{type}</li>
           ))}
         </ul>
       </div>
@@ -28,7 +28,7 @@ const PokemonPage = ({ pokemon }) => {
         <h4>Attacks</h4>
         <ul>
           {pokemon.attacks.fast.map(attack => (
-            <li>
+            <li key={attack.name}>
               <p>{attack.name}</p>
               <p>Damage: {attack.damage}</p>
             </li>
@@ -39,7 +39,7 @@ const PokemonPage = ({ pokemon }) => {
         <h4>Evolutions</h4>
         <ul>
           {pokemon.evolutions.map(evolution => (
-            <li>{evolution.name}</li>
+            <li key={evolution.name}>{evolution.name}</li>
           ))}
         </ul>
       </div>
@@ -59,88 +59,58 @@ export const getStaticPaths: GetStaticPaths = async () => {
     query: gql`
       query PATHS {
         pokemons(first: 151) {
-          id
+          name
         }
       }
     `,
   });
+
+  const paths = await data.pokemons.map(poke => ({
+    params: {
+      id: poke.name,
+    },
+  }));
+
+  return {
+    paths,
+    fallback: false,
+  };
 };
 
-export const getStaticProps: GetStaticProps = async ({ query }) => {
-  console.log(query);
-
+export const getStaticProps: GetStaticProps = async ({ params }) => {
   const { data } = await client.query({
     query: gql`
-        query POKEMON {
-          pokemon(name: "${query.id}") {
-              classification
-              evolutionRequirements {
-              amount
+              query POKEMON {
+                pokemon(name: "${params?.id}") {
+                    classification
+                    evolutionRequirements {
+                    amount
+                    name
+                    }
+                    height {
+                        maximum
+                     }
+                weight {
+                    maximum
+                    }
+            attacks {
+              fast {
+                name
+                type
+                damage
+              }
+            }
+            evolutions {
+              id
               name
+            }
+            types
+            maxHP
+            image
+                }
               }
-              height {
-                  maximum
-               }
-          weight {
-              maximum
-              }
-      attacks {
-        fast {
-          name
-          type
-          damage
-        }
-      }
-      evolutions {
-        id
-        name
-      }
-      types
-      maxHP
-      image
-          }
-        }
-      `,
+            `,
   });
-
-  // export const getServerSideProps: GetServerSideProps = async ({ query }) => {
-  //   console.log(query);
-
-  //   const { data } = await client.query({
-  //     query: gql`
-  //       query POKEMON {
-  //         pokemon(name: "${query.id}") {
-  //             classification
-  //             evolutionRequirements {
-  //             amount
-  //             name
-  //             }
-  //             height {
-  //                 maximum
-  //              }
-  //         weight {
-  //             maximum
-  //             }
-  //     attacks {
-  //       fast {
-  //         name
-  //         type
-  //         damage
-  //       }
-  //     }
-  //     evolutions {
-  //       id
-  //       name
-  //     }
-  //     types
-  //     maxHP
-  //     image
-  //         }
-  //       }
-  //     `,
-  //   });
-
-  console.log(data);
 
   return {
     props: {
@@ -148,3 +118,86 @@ export const getStaticProps: GetStaticProps = async ({ query }) => {
     },
   };
 };
+
+// export const getServerSideProps: GetServerSideProps = async ({ query }) => {
+//     console.log(query);
+
+//     const { data } = await client.query({
+//       query: gql`
+//         query POKEMON {
+//           pokemon(name: "${query.id}") {
+//               classification
+//               evolutionRequirements {
+//               amount
+//               name
+//               }
+//               height {
+//                   maximum
+//                }
+//           weight {
+//               maximum
+//               }
+//       attacks {
+//         fast {
+//           name
+//           type
+//           damage
+//         }
+//       }
+//       evolutions {
+//         id
+//         name
+//       }
+//       types
+//       maxHP
+//       image
+//           }
+//         }
+//       `,
+//     });
+
+// export const getServerSideProps: GetServerSideProps = async ({ query }) => {
+//   console.log(query);
+
+//   const { data } = await client.query({
+//     query: gql`
+//       query POKEMON {
+//         pokemon(name: "${query.id}") {
+//             classification
+//             evolutionRequirements {
+//             amount
+//             name
+//             }
+//             height {
+//                 maximum
+//              }
+//         weight {
+//             maximum
+//             }
+//     attacks {
+//       fast {
+//         name
+//         type
+//         damage
+//       }
+//     }
+//     evolutions {
+//       id
+//       name
+//     }
+//     types
+//     maxHP
+//     image
+//         }
+//       }
+//     `,
+//   });
+
+//   console.log(data);
+
+//   return {
+//     props: {
+//       pokemon: data.pokemon,
+//     },
+//   };
+// };
