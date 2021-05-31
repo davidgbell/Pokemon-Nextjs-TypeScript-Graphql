@@ -6,6 +6,7 @@ type PokemonProps = {
   number: string;
   image: string;
   types: string[];
+  id: string;
 };
 
 type Props = {
@@ -16,7 +17,7 @@ export const Pokemon = ({ pokemon }: Props) => {
   return (
     <div>
       {' '}
-      <Link href='/' passHref>
+      <Link href={`/pokemon/${pokemon.name}`} passHref>
         <a>
           <div className='pokemon'>
             <h3>{pokemon.name}</h3>

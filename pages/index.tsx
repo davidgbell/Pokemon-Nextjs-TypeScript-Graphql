@@ -9,7 +9,6 @@ type Props = {
 };
 
 export default function Home({ pokemons }: Props) {
-  console.log(pokemons);
   return (
     <Layout title='Pokemons'>
       <div>

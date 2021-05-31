@@ -3,14 +3,14 @@ import Link from 'next/link';
 import { Pokemon } from './Pokemon';
 
 type Props = {
-  pokemons: [];
+  pokemons: any[];
 };
 
 export const Pokedex = ({ pokemons }: Props) => {
   return (
     <div className='pokedex'>
       {pokemons.map(pokemon => (
-        <Pokemon pokemon={pokemon} />
+        <Pokemon pokemon={pokemon} key={pokemon.id} />
       ))}
     </div>
   );
