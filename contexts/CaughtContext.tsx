@@ -22,6 +22,15 @@ export const CaughtProvider: React.FC = ({ children }) => {
   const [totalCaptured, setTotalCaptured] = useState<number>(0);
 
   const catchPokemon = newPokemon => {
+    const alreadyCaptured = capturedPokemons.some(
+      p => p.name === newPokemon[0].name
+    );
+
+    if (alreadyCaptured) {
+      alert('you already have that pokemon');
+      return;
+    }
+
     if (window.confirm('Capture Pokemon')) {
       setCapturedPokemons([...capturedPokemons, ...newPokemon]);
     }

@@ -51,8 +51,6 @@ const PokemonPage = ({ pokemon }: Props) => {
 
   const { catchPokemon } = useCaught();
 
-  const handleNewPokemon = () => {};
-
   const router = useRouter();
 
   useEffect(() => {
