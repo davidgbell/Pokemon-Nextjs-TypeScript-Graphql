@@ -10,7 +10,7 @@ export const Pokedex = ({ pokemons }: Props) => {
   return (
     <div className='pokedex'>
       {pokemons.map(pokemon => (
-        <Pokemon pokemon={pokemon} key={pokemon.id} />
+        <Pokemon pokemon={pokemon} key={pokemon.number} />
       ))}
     </div>
   );

@@ -1,5 +1,6 @@
 import gql from 'graphql-tag';
 import { GetStaticPaths, GetStaticProps } from 'next';
+import { useRouter } from 'next/dist/client/router';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
@@ -52,6 +53,8 @@ const PokemonPage = ({ pokemon }: Props) => {
 
   const handleNewPokemon = () => {};
 
+  const router = useRouter();
+
   useEffect(() => {
     setPokemonState([
       {
@@ -61,7 +64,7 @@ const PokemonPage = ({ pokemon }: Props) => {
         types: pokemon.types,
       },
     ]);
-  }, []);
+  }, [router.query.id]);
 
   return (
     <Layout title={pokemon.name}>
@@ -102,13 +105,17 @@ const PokemonPage = ({ pokemon }: Props) => {
           <ul>
             {pokemon.evolutions.map(evolution => (
               <li key={evolution.name}>
-                <h5>{evolution.name}</h5>
-                <Image
-                  src={evolution.image}
-                  width={100}
-                  height={100}
-                  alt={evolution.name}
-                />
+                <Link href={`/pokemon/${evolution.name}`} passHref>
+                  <a>
+                    <h5>{evolution.name}</h5>
+                    <Image
+                      src={evolution.image}
+                      width={100}
+                      height={100}
+                      alt={evolution.name}
+                    />
+                  </a>
+                </Link>
               </li>
             ))}
           </ul>
