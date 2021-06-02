@@ -3,6 +3,7 @@ import { GetStaticProps } from 'next';
 import client from '../apollo-client';
 import { Layout } from '../components/Layout';
 import { Pokedex } from '../components/Pokedex';
+import { useCaught } from '../contexts/CaughtContext';
 
 type Props = {
   pokemons: [];
@@ -13,7 +14,7 @@ export default function Home({ pokemons }: Props) {
     <Layout title='Pokemons'>
       <div>
         <main>
-          <h1>Hello</h1>
+          <h1>hello world</h1>
           <Pokedex pokemons={pokemons} />
         </main>
       </div>

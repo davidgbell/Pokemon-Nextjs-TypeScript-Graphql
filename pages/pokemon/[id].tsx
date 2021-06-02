@@ -2,9 +2,11 @@ import gql from 'graphql-tag';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
 import client from '../../apollo-client';
 import { Layout } from '../../components/Layout';
+import { useCaught } from '../../contexts/CaughtContext';
 
 type PokemonProps = {
   name: string;
@@ -44,6 +46,23 @@ type Props = {
 };
 
 const PokemonPage = ({ pokemon }: Props) => {
+  const [pokemonState, setPokemonState] = useState<{} | null | undefined>();
+
+  const { catchPokemon } = useCaught();
+
+  const handleNewPokemon = () => {};
+
+  useEffect(() => {
+    setPokemonState([
+      {
+        name: pokemon.name,
+        image: pokemon.image,
+        number: pokemon.number,
+        types: pokemon.types,
+      },
+    ]);
+  }, []);
+
   return (
     <Layout title={pokemon.name}>
       <Link href='/'>Back home</Link>
@@ -55,6 +74,9 @@ const PokemonPage = ({ pokemon }: Props) => {
       <p>WT {pokemon.weight.maximum}</p>
       <Image src={pokemon.image} width={200} height={200} />
       <h3>HP: {pokemon.maxHP}</h3>
+      <button onClick={() => catchPokemon(pokemonState)}>
+        Capture Pokemon
+      </button>
       <div>
         <h4>Types</h4>
         <ul>
