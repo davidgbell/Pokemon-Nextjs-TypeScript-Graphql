@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 
 type PokemonProps = {
   number: string;
@@ -22,6 +22,11 @@ export const CaughtProvider: React.FC = ({ children }) => {
   const [totalCaptured, setTotalCaptured] = useState<number>(0);
 
   const catchPokemon = newPokemon => {
+    if (capturedPokemons.length >= 6) {
+      alert('You cannot carry any more Pokemon.');
+      return;
+    }
+
     const alreadyCaptured = capturedPokemons.some(
       p => p.name === newPokemon[0].name
     );
@@ -36,6 +41,19 @@ export const CaughtProvider: React.FC = ({ children }) => {
     }
   };
 
+  useEffect(() => {
+    const localPokemons = localStorage.getItem('capturedPokemons');
+
+    if (localPokemons) {
+      setCapturedPokemons(JSON.parse(localPokemons));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('capturedPokemons', JSON.stringify(capturedPokemons));
+  }, [capturedPokemons]);
+
+  // TODO
   const releasePokemon = () => {};
 
   return (
