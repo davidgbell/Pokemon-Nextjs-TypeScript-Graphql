@@ -56,7 +56,9 @@ const PokemonPage = ({ pokemon }: Props) => {
     },
   ]);
 
-  const { catchPokemon } = useCaught();
+  const [alreadyCaptured, setAlreadyCaptured] = useState<boolean>(false);
+
+  const { catchPokemon, capturedPokemons } = useCaught();
 
   const router = useRouter();
 
@@ -71,6 +73,21 @@ const PokemonPage = ({ pokemon }: Props) => {
     ]);
   }, [router.query.id]);
 
+  const displayCaptureOptionButton = (pokemonName: string) => {
+    const captured = capturedPokemons.some(p => p.name === pokemonName);
+    if (captured) {
+      return <h3>You own this Pokemon</h3>;
+    } else if (captured === false) {
+      return (
+        <button onClick={() => catchPokemon(pokemonState)}>
+          Capture Pokemon
+        </button>
+      );
+    } else {
+      return null;
+    }
+  };
+
   return (
     <Layout title={pokemon.name}>
       <Link href='/'>Back home</Link>
@@ -82,9 +99,8 @@ const PokemonPage = ({ pokemon }: Props) => {
       <p>WT {pokemon.weight.maximum}</p>
       <Image src={pokemon.image} width={200} height={200} />
       <h3>HP: {pokemon.maxHP}</h3>
-      <button onClick={() => catchPokemon(pokemonState)}>
-        Capture Pokemon
-      </button>
+
+      <div>{displayCaptureOptionButton(pokemon.name)}</div>
       <div>
         <h4>Types</h4>
         <ul>
