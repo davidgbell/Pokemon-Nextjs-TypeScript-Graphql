@@ -20,7 +20,11 @@ const CaughtContext = createContext<ContextProps>({
 
 export const useCaught = () => useContext(CaughtContext);
 
-export const CaughtProvider: React.FC<ContextProps> = ({ children }) => {
+type CaughtProviderProps = {
+  children: React.ReactNode;
+};
+
+export const CaughtProvider: React.FC<CaughtProviderProps> = ({ children }) => {
   const [capturedPokemons, setCapturedPokemons] = useState<any>([]);
 
   const catchPokemon = (newPokemon: PokemonProps[]) => {
@@ -34,11 +38,11 @@ export const CaughtProvider: React.FC<ContextProps> = ({ children }) => {
     );
 
     if (alreadyCaptured) {
-      alert('you already have that pokemon');
+      alert(`You already have caught ${newPokemon[0].name}`);
       return;
     }
 
-    if (window.confirm('Capture Pokemon')) {
+    if (window.confirm(`Catch ${newPokemon[0].name}?`)) {
       setCapturedPokemons([...capturedPokemons, ...newPokemon]);
     }
   };
@@ -55,8 +59,17 @@ export const CaughtProvider: React.FC<ContextProps> = ({ children }) => {
     localStorage.setItem('capturedPokemons', JSON.stringify(capturedPokemons));
   }, [capturedPokemons]);
 
-  // TODO
-  const releasePokemon = () => {};
+  const releasePokemon = (id: string) => {
+    if (window.confirm(`Do you want to release ${id} to the wild?`)) {
+      setCapturedPokemons(
+        capturedPokemons.filter((p: PokemonProps) => p.name !== id)
+      );
+
+      alert(`${id} has been released. You can now catch another pokemon.`);
+    } else {
+      return;
+    }
+  };
 
   return (
     <CaughtContext.Provider

@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { useCaught } from '../contexts/CaughtContext';
 
 type PokemonProps = {
   name: string;
@@ -11,15 +12,17 @@ type PokemonProps = {
 
 type Props = {
   pokemon: PokemonProps;
+  isCaught: boolean;
 };
 
-export const Pokemon = ({ pokemon }: Props) => {
+export const Pokemon = ({ pokemon, isCaught }: Props) => {
+  const { releasePokemon } = useCaught();
+
   return (
     <div>
-      {' '}
-      <Link href={`/pokemon/${pokemon.name}`} passHref>
-        <a>
-          <div className='pokemon'>
+      <div className='pokemon'>
+        <Link href={`/pokemon/${pokemon.name}`} passHref>
+          <a>
             <h3>{pokemon.name}</h3>
             <p>{pokemon.number}</p>
             <div className='pokemon-image'>
@@ -35,9 +38,16 @@ export const Pokemon = ({ pokemon }: Props) => {
                 <li key={type}>{type}</li>
               ))}
             </ul>
+          </a>
+        </Link>
+        {isCaught && (
+          <div>
+            <button onClick={() => releasePokemon(pokemon.name)}>
+              Release
+            </button>
           </div>
-        </a>
-      </Link>
+        )}
+      </div>
     </div>
   );
 };

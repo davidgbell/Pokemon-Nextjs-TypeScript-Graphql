@@ -9,7 +9,7 @@ import client from '../../apollo-client';
 import { Layout } from '../../components/Layout';
 import { useCaught } from '../../contexts/CaughtContext';
 
-type PokemonProps = {
+type PokemonPageProps = {
   name: string;
   number: string;
   classification: string;
@@ -43,7 +43,7 @@ type PokemonProps = {
 };
 
 type Props = {
-  pokemon: PokemonProps;
+  pokemon: PokemonPageProps;
 };
 
 const PokemonPage = ({ pokemon }: Props) => {
