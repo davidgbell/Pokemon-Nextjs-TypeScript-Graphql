@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useCaught } from '../contexts/CaughtContext';
 import { Pokemon } from './Pokemon';
+import { Search } from './Search';
 
 type PokemonProps = {
   number: string;
@@ -13,6 +14,8 @@ type Props = {
 };
 
 export const Pokedex = ({ pokemons }: Props) => {
+  const [term, setTerm] = useState('');
+
   const [isCaught, setIsCaught] = useState<boolean>(false);
 
   const { capturedPokemons } = useCaught();
@@ -29,11 +32,35 @@ export const Pokedex = ({ pokemons }: Props) => {
     checkIfCaught(capturedPokemons, pokemons);
   }, []);
 
+  const handleTermChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ): void => {
+    setTerm(event.target.value);
+  };
+
+  const filteredPokemon = pokemons.filter(p =>
+    p.name.toLowerCase().includes(term.toLocaleLowerCase())
+  );
+
   return (
-    <div className='pokedex'>
-      {pokemons.map(pokemon => (
-        <Pokemon pokemon={pokemon} key={pokemon.number} isCaught={isCaught} />
-      ))}
-    </div>
+    <>
+      <Search term={term} handleTermChange={handleTermChange} />
+      <div className='pokedex'>
+        {filteredPokemon.length > 0 ? (
+          filteredPokemon.map(pokemon => (
+            <Pokemon
+              pokemon={pokemon}
+              key={pokemon.number}
+              isCaught={isCaught}
+            />
+          ))
+        ) : (
+          <h2>
+            There are no Pokemon matching your search query please try something
+            else
+          </h2>
+        )}
+      </div>
+    </>
   );
 };
