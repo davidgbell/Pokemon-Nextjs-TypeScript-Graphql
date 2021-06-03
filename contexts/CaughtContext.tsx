@@ -8,27 +8,29 @@ type PokemonProps = {
 
 type ContextProps = {
   capturedPokemons: PokemonProps[];
-  catchPokemon: (pokemon: PokemonProps) => void;
+  catchPokemon: (newPokemon: PokemonProps[]) => void;
   releasePokemon: (id: string) => void;
-  totalCaptured: number;
 };
 
-const CaughtContext = createContext<ContextProps | null>(null);
+const CaughtContext = createContext<ContextProps>({
+  capturedPokemons: [],
+  catchPokemon: () => undefined,
+  releasePokemon: () => undefined,
+});
 
 export const useCaught = () => useContext(CaughtContext);
 
-export const CaughtProvider: React.FC = ({ children }) => {
-  const [capturedPokemons, setCapturedPokemons] = useState([]);
-  const [totalCaptured, setTotalCaptured] = useState<number>(0);
+export const CaughtProvider: React.FC<ContextProps> = ({ children }) => {
+  const [capturedPokemons, setCapturedPokemons] = useState<any>([]);
 
-  const catchPokemon = newPokemon => {
+  const catchPokemon = (newPokemon: PokemonProps[]) => {
     if (capturedPokemons.length >= 6) {
       alert('You cannot carry any more Pokemon.');
       return;
     }
 
     const alreadyCaptured = capturedPokemons.some(
-      p => p.name === newPokemon[0].name
+      (p: PokemonProps) => p.name === newPokemon[0].name
     );
 
     if (alreadyCaptured) {
@@ -58,7 +60,7 @@ export const CaughtProvider: React.FC = ({ children }) => {
 
   return (
     <CaughtContext.Provider
-      value={{ capturedPokemons, catchPokemon, releasePokemon, totalCaptured }}>
+      value={{ catchPokemon, capturedPokemons, releasePokemon }}>
       {children}
     </CaughtContext.Provider>
   );

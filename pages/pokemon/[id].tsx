@@ -47,7 +47,14 @@ type Props = {
 };
 
 const PokemonPage = ({ pokemon }: Props) => {
-  const [pokemonState, setPokemonState] = useState<{} | null | undefined>();
+  const [pokemonState, setPokemonState] = useState([
+    {
+      name: '',
+      number: '',
+      image: '',
+      types: [''],
+    },
+  ]);
 
   const { catchPokemon } = useCaught();
 

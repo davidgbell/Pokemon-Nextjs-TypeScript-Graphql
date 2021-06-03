@@ -6,8 +6,6 @@ import { useCaught } from '../contexts/CaughtContext';
 const Captured = () => {
   const { capturedPokemons } = useCaught();
 
-  console.log(capturedPokemons.length);
-
   return (
     <Layout title='Captured Pokemons'>
       {capturedPokemons.length > 0 ? (
