@@ -2,10 +2,10 @@ import React, { useState, FormEvent } from 'react';
 
 type Props = {
   term: string;
-  handleTermChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-export const Search = ({ term, handleTermChange }: Props) => {
+export const Search = ({ term, handleInputChange }: Props) => {
   return (
     <form role='search'>
       <label htmlFor='search'>Search Pokemon</label>
@@ -16,7 +16,7 @@ export const Search = ({ term, handleTermChange }: Props) => {
         aria-label='Enter your search term'
         value={term || ''}
         placeholder='search pokemon'
-        onChange={handleTermChange}
+        onChange={handleInputChange}
       />
     </form>
   );

@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, ChangeEvent, MouseEvent } from 'react';
 import { useCaught } from '../contexts/CaughtContext';
 import { Pokemon } from './Pokemon';
+import { PokemonTypeButtons } from './PokemonTypeButtons';
 import { Search } from './Search';
 
 type PokemonProps = {
@@ -32,19 +33,27 @@ export const Pokedex = ({ pokemons }: Props) => {
     checkIfCaught(capturedPokemons, pokemons);
   }, []);
 
-  const handleTermChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ): void => {
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>): void => {
     setTerm(event.target.value);
   };
 
-  const filteredPokemon = pokemons.filter(p =>
-    p.name.toLowerCase().includes(term.toLocaleLowerCase())
+  const handleFilterButtonChange = (event: MouseEvent<HTMLButtonElement>) => {
+    setTerm(event.currentTarget.value);
+  };
+
+  const filteredPokemon = pokemons.filter(
+    p =>
+      p.name.toLowerCase().includes(term.toLocaleLowerCase()) ||
+      p.types.find((t: string) => t.toLowerCase() === term.toLocaleLowerCase())
   );
 
   return (
     <>
-      <Search term={term} handleTermChange={handleTermChange} />
+      <Search term={term} handleInputChange={handleInputChange} />
+      <PokemonTypeButtons
+        term={term}
+        handleFilterButtonChange={handleFilterButtonChange}
+      />
       <div className='pokedex'>
         {filteredPokemon.length > 0 ? (
           filteredPokemon.map(pokemon => (

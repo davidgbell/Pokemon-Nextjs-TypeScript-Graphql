@@ -3,7 +3,6 @@ import { GetStaticProps } from 'next';
 import client from '../apollo-client';
 import { Layout } from '../components/Layout';
 import { Pokedex } from '../components/Pokedex';
-import { useCaught } from '../contexts/CaughtContext';
 
 type Props = {
   pokemons: [];
