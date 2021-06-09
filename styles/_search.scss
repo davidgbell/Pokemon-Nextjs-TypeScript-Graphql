@@ -10,4 +10,11 @@
     border: 2px solid $accent1;
     border-radius: 4px;
   }
+  button {
+    background-color: $bravo;
+    color: $light;
+    margin-left: 1rem;
+    border: none;
+    border-radius: 6px;
+  }
 }
