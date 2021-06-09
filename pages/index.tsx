@@ -13,7 +13,7 @@ export default function Home({ pokemons }: Props) {
     <Layout title='Pokemons'>
       <div>
         <main>
-          <h1>hello world</h1>
+          <h1 className='title'>Pokemon</h1>
           <Pokedex pokemons={pokemons} />
         </main>
       </div>

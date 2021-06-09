@@ -7,8 +7,10 @@ type Props = {
 
 export const Search = ({ term, handleInputChange }: Props) => {
   return (
-    <form role='search'>
-      <label htmlFor='search'>Search Pokemon</label>
+    <form className='search' role='search'>
+      <label className='hidden' htmlFor='search'>
+        Search Pokemon
+      </label>
       <input
         type='search'
         id='search'

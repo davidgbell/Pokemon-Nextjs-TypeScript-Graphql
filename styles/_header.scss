@@ -1,0 +1,14 @@
+@import './variables';
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  background-color: $bravo;
+  color: $light;
+  padding: 1em 1rem;
+  width: 100%;
+  a {
+    color: $light;
+    text-decoration: none;
+  }
+}

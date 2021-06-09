@@ -56,8 +56,6 @@ const PokemonPage = ({ pokemon }: Props) => {
     },
   ]);
 
-  const [alreadyCaptured, setAlreadyCaptured] = useState<boolean>(false);
-
   const { catchPokemon, capturedPokemons } = useCaught();
 
   const router = useRouter();
@@ -74,7 +72,7 @@ const PokemonPage = ({ pokemon }: Props) => {
   }, [router.query.id]);
 
   const displayCaptureOptionButton = (pokemonName: string) => {
-    const captured = capturedPokemons.some(p => p.name === pokemonName);
+    const captured = capturedPokemons.some((p) => p.name === pokemonName);
     if (captured) {
       return <h3>You own this Pokemon</h3>;
     } else if (captured === false) {
@@ -104,7 +102,7 @@ const PokemonPage = ({ pokemon }: Props) => {
       <div>
         <h4>Types</h4>
         <ul>
-          {pokemon.types.map(type => (
+          {pokemon.types.map((type) => (
             <li key={type}>{type}</li>
           ))}
         </ul>
@@ -112,7 +110,7 @@ const PokemonPage = ({ pokemon }: Props) => {
       <div>
         <h4>Attacks</h4>
         <ul>
-          {pokemon.attacks.fast.map(attack => (
+          {pokemon.attacks.fast.map((attack) => (
             <li key={attack.name}>
               <p>{attack.name}</p>
               <p>Damage: {attack.damage}</p>
@@ -124,7 +122,7 @@ const PokemonPage = ({ pokemon }: Props) => {
         <div>
           <h4>Evolutions</h4>
           <ul>
-            {pokemon.evolutions.map(evolution => (
+            {pokemon.evolutions.map((evolution) => (
               <li key={evolution.name}>
                 <Link href={`/pokemon/${evolution.name}`} passHref>
                   <a>

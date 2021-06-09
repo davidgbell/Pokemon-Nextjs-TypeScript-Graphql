@@ -28,11 +28,13 @@ export const PokemonTypeButtons = ({
   ];
 
   return (
-    <div>
+    <div
+      className='pokemon-type-buttons
+    '>
       <button value='' onClick={handleFilterButtonChange}>
         all
       </button>
-      {pokemonTypes.map(type => (
+      {pokemonTypes.map((type) => (
         <button key={type} value={type} onClick={handleFilterButtonChange}>
           {type}
         </button>
