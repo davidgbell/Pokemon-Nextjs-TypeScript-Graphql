@@ -3,9 +3,14 @@ import React, { useState, FormEvent } from 'react';
 type Props = {
   term: string;
   handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleClearInput: () => void;
 };
 
-export const Search = ({ term, handleInputChange }: Props) => {
+export const Search = ({
+  term,
+  handleInputChange,
+  handleClearInput,
+}: Props) => {
   return (
     <form className='search' role='search'>
       <label className='hidden' htmlFor='search'>
@@ -20,6 +25,7 @@ export const Search = ({ term, handleInputChange }: Props) => {
         placeholder='search pokemon'
         onChange={handleInputChange}
       />
+      <button onClick={handleClearInput}>Clear</button>
     </form>
   );
 };

@@ -41,22 +41,30 @@ export const Pokedex = ({ pokemons }: Props) => {
     setTerm(event.currentTarget.value);
   };
 
+  const handleClearInput = () => {
+    setTerm('');
+  };
+
   const filteredPokemon = pokemons.filter(
-    p =>
+    (p) =>
       p.name.toLowerCase().includes(term.toLocaleLowerCase()) ||
       p.types.find((t: string) => t.toLowerCase() === term.toLocaleLowerCase())
   );
 
   return (
     <>
-      <Search term={term} handleInputChange={handleInputChange} />
+      <Search
+        term={term}
+        handleInputChange={handleInputChange}
+        handleClearInput={handleClearInput}
+      />
       <PokemonTypeButtons
         term={term}
         handleFilterButtonChange={handleFilterButtonChange}
       />
       <div className='pokedex'>
         {filteredPokemon.length > 0 ? (
-          filteredPokemon.map(pokemon => (
+          filteredPokemon.map((pokemon) => (
             <Pokemon
               pokemon={pokemon}
               key={pokemon.number}
